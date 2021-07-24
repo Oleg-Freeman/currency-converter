@@ -4,6 +4,7 @@ import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
 import { config } from './config';
 import mongoose from 'mongoose';
+import currencyRouter from './modules/currency/currency.controller';
 
 const app = new Koa();
 
@@ -13,7 +14,7 @@ app.use(bodyParser());
 app.use(json());
 
 // Routes
-// app.use(routes());
+app.use(currencyRouter.routes());
 
 // Error handler
 app.use(async (ctx, next) => {
