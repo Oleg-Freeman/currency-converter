@@ -7,4 +7,5 @@ export const config = {
     jwtSecret: process.env.JWT_SECRET || 'secret',
     jwtExpiration: process.env.JWT_EXPIRATION,
     bcryptSalt: process.env.BCRYPT_SALT || 10,
+    mongoUrl: process.env.MONGO_URL || 'mongodb://localhost/my_database',
 };

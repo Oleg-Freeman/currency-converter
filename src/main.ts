@@ -3,6 +3,7 @@ import json from 'koa-json';
 import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
 import { config } from './config';
+import mongoose from 'mongoose';
 
 const app = new Koa();
 
@@ -25,6 +26,17 @@ app.use(async (ctx, next) => {
     }
 });
 
-app.listen(config.port, () => {
-    console.log(`Server is running on port ${config.port}`);
-});
+mongoose
+    .connect(config.mongoUrl, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+    })
+    .then(() => {
+        console.log('Database connected');
+        app.listen(config.port, () => {
+            console.log(`Server is running on port ${config.port}`);
+        });
+    })
+    .catch((err) => console.log(err));
