@@ -15,7 +15,7 @@ export const allowedCurrencies = async (ctx: Context, next: Next): Promise<Next 
             return;
         }
 
-        const isAllowed = currencies.find((c) => c === currency);
+        const isAllowed = currencies.find((c) => c === currency.toLowerCase());
 
         if (!isAllowed) {
             console.log('Currency not allowed');
