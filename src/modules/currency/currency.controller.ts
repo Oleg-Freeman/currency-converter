@@ -1,5 +1,6 @@
 import Router from 'koa-router';
 import { CurrencyService } from './currency.service';
+import { allowedCurrencies } from '../../utils/validators/allowedCurrencies.validator';
 
 const router = new Router();
 
@@ -18,7 +19,7 @@ router.get('/currency/history/:currency/:date', async (ctx) => {
 });
 
 // convert latest
-router.get('/currency/latest/:currency', async (ctx) => {
+router.get('/currency/latest/:currency', allowedCurrencies, async (ctx) => {
     try {
         const currency = ctx.params.currency;
         const service = new CurrencyService();
@@ -26,6 +27,7 @@ router.get('/currency/latest/:currency', async (ctx) => {
         ctx.status = 200;
         ctx.body = {
             rate: `${currency.toUpperCase()}/UAH: ${uah}`,
+            cached: false,
         };
     } catch (err) {
         console.log('Get latest currency failed', err);
