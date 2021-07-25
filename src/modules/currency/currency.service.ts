@@ -8,7 +8,7 @@ export class CurrencyService {
         this.model = new CurrencyModel();
     }
 
-    async getLatest(currency: string): Promise<{ exchange: CurrencyAttributes; cached: boolean }> {
+    async getExchangeRate(currency: string): Promise<{ exchange: CurrencyAttributes; cached: boolean }> {
         const cache = await this.model.getCached(currency);
 
         if (cache) return { exchange: cache, cached: true };
@@ -16,7 +16,7 @@ export class CurrencyService {
         const rate = await this.model.cacheCurrency({
             currency: currency.toLowerCase(),
             base: config.baseCurrency,
-            rate: latest.rates.UAH,
+            rate: latest.rates[config.baseCurrency.toUpperCase()],
             date: latest.date,
         });
         return { exchange: rate, cached: false };

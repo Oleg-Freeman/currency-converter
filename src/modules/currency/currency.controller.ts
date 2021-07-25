@@ -25,10 +25,10 @@ router.get('/currency/latest/:currency', allowedCurrencies, async (ctx) => {
     try {
         const currency = ctx.params.currency;
         const service = new CurrencyService();
-        const latest = await service.getLatest(currency);
+        const latest = await service.getExchangeRate(currency);
         ctx.status = 200;
         ctx.body = {
-            rate: `${currency.toUpperCase()}/UAH: ${latest.exchange.rate}`,
+            rate: `${currency.toUpperCase()}/${latest.exchange.base.toUpperCase()}: ${latest.exchange.rate}`,
             cached: latest.cached,
         };
     } catch (err) {

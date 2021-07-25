@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { Context, Next } from 'koa';
-const Joi = require('joi').extend(require('@joi/date'));
+const Joi = require('joi').extend(require('@joi/date')); // How to do the same with TS imports?
 
 export const checkDate = async (ctx: Context, next: Next): Promise<Next | undefined> => {
     try {
