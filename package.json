@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "nodemon ./build/main.js",
     "start": "node ./build/main.js",
+    "prestart": "./node_modules/.bin/tsc",
     "build": "./node_modules/.bin/tsc"
   },
   "author": "Oleg Voitiuk",
