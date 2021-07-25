@@ -6,9 +6,7 @@ Example of `.env` config file in root directory:
 
 ```angular2html
 PORT=5000
-JWT_SECRET=secret
-JWT_EXPIRATION=30s
-BCRYPT_SALT=10
+MONGO_URL=mongodb://localhost/my_database
 ```
 
 ## Installation
