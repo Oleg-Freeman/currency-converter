@@ -1,13 +1,15 @@
 import Router from 'koa-router';
 import { CurrencyService } from './currency.service';
 import { allowedCurrencies } from '../../utils/validators/allowedCurrencies.validator';
+import { checkDate } from '../../utils/validators/date.validator';
 
 const router = new Router();
 
 // convert by date
-router.get('/currency/history/:currency/:date', async (ctx) => {
+router.get('/currency/history/:currency/:date', allowedCurrencies, checkDate, async (ctx) => {
     try {
-        // TODO
+        ctx.status = 200;
+        ctx.body = 'OK';
     } catch (err) {
         console.log('Get currency history failed', err);
         ctx.status = err.statusCode || err.status || 400;

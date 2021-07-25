@@ -1,6 +1,5 @@
 import { Context, Next } from 'koa';
-
-const currencies = ['usd', 'eur'];
+import { config } from '../../config';
 
 export const allowedCurrencies = async (ctx: Context, next: Next): Promise<Next | undefined> => {
     try {
@@ -15,7 +14,7 @@ export const allowedCurrencies = async (ctx: Context, next: Next): Promise<Next 
             return;
         }
 
-        const isAllowed = currencies.find((c) => c === currency.toLowerCase());
+        const isAllowed = config.allowedCurrencies.find((c) => c === currency.toLowerCase());
 
         if (!isAllowed) {
             console.log('Currency not allowed');
