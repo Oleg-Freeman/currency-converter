@@ -12,7 +12,7 @@ export class CurrencyService {
         const cache = await this.model.getCached(currency, date);
 
         if (cache) return { exchange: cache, cached: true };
-        const latest = await this.model.queryExchangeRate(currency, date);
+        const latest = await this.model.fetchExchangeRate(currency, date);
         const rate = await this.model.cacheExchangeRate({
             currency: currency.toLowerCase(),
             base: config.baseCurrency,

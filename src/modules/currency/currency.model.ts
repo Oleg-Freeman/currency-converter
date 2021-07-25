@@ -9,7 +9,7 @@ export class CurrencyModel {
         this.model = Currency;
     }
 
-    async queryExchangeRate(currency: string, date: string): Promise<CurrencyRate> {
+    async fetchExchangeRate(currency: string, date: string): Promise<CurrencyRate> {
         const exchangeRateRequest = await fetch(`https://api.exchangerate.host/${date}?base=${currency.toUpperCase()}`);
         return await exchangeRateRequest.json();
     }

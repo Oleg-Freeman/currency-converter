@@ -9,11 +9,14 @@ const router = new Router();
 router.get('/currency/history/:currency/:date', allowedCurrencies, checkDate, async (ctx) => {
     try {
         const { currency, date } = ctx.params;
+        const amount = <string | undefined>ctx.query.amount;
         const service = new CurrencyService();
         const history = await service.getExchangeRate(currency, date);
         ctx.status = 200;
         ctx.body = {
-            rate: `${currency.toUpperCase()}/${history.exchange.base.toUpperCase()}: ${history.exchange.rate}`,
+            currencies: `${currency.toUpperCase()}/${history.exchange.base.toUpperCase()}`,
+            rate: history.exchange.rate,
+            ...(amount ? { amount: history.exchange.rate * Number(amount) } : {}),
             cached: history.cached,
         };
     } catch (err) {
@@ -30,11 +33,14 @@ router.get('/currency/history/:currency/:date', allowedCurrencies, checkDate, as
 router.get('/currency/latest/:currency', allowedCurrencies, async (ctx) => {
     try {
         const currency = ctx.params.currency;
+        const amount = <string | undefined>ctx.query.amount;
         const service = new CurrencyService();
         const latest = await service.getExchangeRate(currency, 'latest');
         ctx.status = 200;
         ctx.body = {
-            rate: `${currency.toUpperCase()}/${latest.exchange.base.toUpperCase()}: ${latest.exchange.rate}`,
+            currencies: `${currency.toUpperCase()}/${latest.exchange.base.toUpperCase()}`,
+            rate: latest.exchange.rate,
+            ...(amount ? { amount: latest.exchange.rate * Number(amount) } : {}),
             cached: latest.cached,
         };
     } catch (err) {
