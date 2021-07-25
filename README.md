@@ -14,3 +14,9 @@ MONGO_URL=mongodb://localhost/my_database
 - `npm i`
 - `npm run build`
 - `npm start` or `npm run dev` to run in development mode
+
+## Docker
+
+```
+docker-compose up 
+```
