@@ -8,8 +8,14 @@ const router = new Router();
 // convert by date
 router.get('/currency/history/:currency/:date', allowedCurrencies, checkDate, async (ctx) => {
     try {
+        const { currency, date } = ctx.params;
+        const service = new CurrencyService();
+        const history = await service.getExchangeRate(currency, date);
         ctx.status = 200;
-        ctx.body = 'OK';
+        ctx.body = {
+            rate: `${currency.toUpperCase()}/${history.exchange.base.toUpperCase()}: ${history.exchange.rate}`,
+            cached: history.cached,
+        };
     } catch (err) {
         console.log('Get currency history failed', err);
         ctx.status = err.statusCode || err.status || 400;
@@ -25,7 +31,7 @@ router.get('/currency/latest/:currency', allowedCurrencies, async (ctx) => {
     try {
         const currency = ctx.params.currency;
         const service = new CurrencyService();
-        const latest = await service.getExchangeRate(currency);
+        const latest = await service.getExchangeRate(currency, 'latest');
         ctx.status = 200;
         ctx.body = {
             rate: `${currency.toUpperCase()}/${latest.exchange.base.toUpperCase()}: ${latest.exchange.rate}`,

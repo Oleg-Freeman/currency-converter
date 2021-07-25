@@ -9,16 +9,16 @@ export class CurrencyModel {
         this.model = Currency;
     }
 
-    async getLatest(currency: string): Promise<CurrencyRate> {
-        const exchangeRateRequest = await fetch(`https://api.exchangerate.host/latest?base=${currency.toUpperCase()}`);
+    async queryExchangeRate(currency: string, date: string): Promise<CurrencyRate> {
+        const exchangeRateRequest = await fetch(`https://api.exchangerate.host/${date}?base=${currency.toUpperCase()}`);
         return await exchangeRateRequest.json();
     }
 
-    async getCached(currency: string): Promise<CurrencyAttributes | null> {
-        return this.model.findOne({ currency });
+    async getCached(currency: string, date: string): Promise<CurrencyAttributes | null> {
+        return this.model.findOne({ currency, date });
     }
 
-    async cacheCurrency(data: { date: string; rate: number; currency: string; base: string }): Promise<CurrencyAttributes> {
+    async cacheExchangeRate(data: { date: string; rate: number; currency: string; base: string }): Promise<CurrencyAttributes> {
         const rate = await new Currency(data);
         rate.save();
         return rate;
